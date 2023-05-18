@@ -1,0 +1,15 @@
+<template>
+    <lightning-card  variant="Narrow"  title={headerText} icon-name="standard:account">
+        <lightning-modal-header label="Business"></lightning-modal-header>
+        <lightning-modal-body>
+            <p>{bodyContent}</p>
+            <c-rd-pace-business-entity-form></c-rd-pace-business-entity-form>
+        </lightning-modal-body>
+        <lightning-modal-footer>
+            <lightning-button variant='brand' label={saveBtn} title='title' onclick={handleSave}>
+            </lightning-button>
+            <lightning-button variant='brand' label={saveAndProceedToLOIBtn} class="slds-m-left_small" title='title' onclick={handleSave}>
+            </lightning-button>
+        </lightning-modal-footer>
+    </lightning-card>
+</template>

@@ -1,0 +1,12 @@
+{
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true
+    }
+  ],
+  "name": "pace",
+  "namespace": "",
+  "sfdcLoginUrl": "https://wdc-usda--rfdodevs03.my.salesforce.com",
+  "sourceApiVersion": "56.0"
+}

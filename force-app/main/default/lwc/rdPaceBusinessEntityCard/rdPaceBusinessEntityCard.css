@@ -1,0 +1,4 @@
+:host {
+    --sds-c-card-heading-font-weight: 500px;
+    --sds-c-card-body-spacing-inline-start: 20px;
+}
