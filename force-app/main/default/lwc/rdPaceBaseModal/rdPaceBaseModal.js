@@ -1,7 +1,5 @@
 import { api } from 'lwc';
 import LightningModal from 'lightning/modal';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-// import { NavigationMixin } from 'lightning/navigation';
 
 export default class RdPaceBaseModal extends LightningModal {
     //Pass in dynamic information based off of what information you want to display in your modal from the parent component
