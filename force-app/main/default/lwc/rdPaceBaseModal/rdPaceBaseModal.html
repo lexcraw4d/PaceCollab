@@ -1,15 +1,30 @@
 <template>
-    <lightning-card  variant="Narrow"  title={headerText} icon-name="standard:account">
+    <lightning-card variant="Narrow" title={headerText} icon-name="standard:account">
         <lightning-modal-header label="Business"></lightning-modal-header>
         <lightning-modal-body>
-            <!-- <p>{bodyContent}</p> -->
-            <c-rd-pace-business-entity-form></c-rd-pace-business-entity-form>
+            
+            <!-- Pass in bodyContent from Card if want <p>{bodyContent}</p> -->
+
+            <!-- Future enhancement to make Dynamic and pass in the lwc record edit form -->
+            <!-- <c-rd-pace-business-entity-form></c-rd-pace-business-entity-form> -->
+
+            <!-- TODO: 
+             =>Enhance looks of the form 2 column and centered
+             =>pass fields in dynnamically
+             => Add remaining form fields-->
+
+            <lightning-record-edit-form object-api-name="RD_PACE_Business_Entity_Card__c" onsuccess={handleSuccess} layout-type="Compact">
+                <lightning-input-field field-name="Name"></lightning-input-field>
+                <lightning-input-field field-name="RD_PACE_TaxIdentificationNumber__c"></lightning-input-field>
+                <lightning-input-field field-name="RD_PACE_UniqueIdentificationNumber__c"></lightning-input-field>
+            </lightning-record-edit-form>
+
         </lightning-modal-body>
+
         <lightning-modal-footer>
-            <lightning-button variant='brand' label={saveBtn} title='title' onclick={handleSave}>
-            </lightning-button>
-            <lightning-button variant='brand' label={saveAndProceedToLOIBtn} class="slds-m-left_small" title='title' onclick={handleSave}>
-            </lightning-button>
+            <lightning-button variant='brand' label={saveBtn} title='title' onclick={handleSubmit}></lightning-button>
+            <lightning-button variant='brand' label={saveAndProceedToLOIBtn} class="slds-m-left_small" title='title' onclick={handleSubmit}></lightning-button>
         </lightning-modal-footer>
+
     </lightning-card>
 </template>
