@@ -1,4 +1,4 @@
-import { api } from 'lwc';
+import { api,track } from 'lwc';
 import LightningModal from 'lightning/modal';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 import NAME_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.Name';
@@ -10,7 +10,7 @@ import STREET3_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD
 import ZIP_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_Zip__c';
 import ACTIVEUEI_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_ActiveUEI__c';
 import NOUEI_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_NoUEI__c';
-
+import createEntity from '@salesforce/apex/CreateBusinessEntity.createEntity'
    
 export default class RdPaceBaseModal extends LightningModal {
 //*Pass in dynamic information based off of what information you want to display in the modal from the parent component Business Entity Card*/
@@ -19,53 +19,78 @@ export default class RdPaceBaseModal extends LightningModal {
     @api bodyContent;
     @api saveBtn;
     @api saveAndProceedToLOIBtn;
+    
 
+    @track name = NAME_FIELD;
+    @track street1 = STREET1_FIELD;
+//TODO: Add in other fields dynamically
+//Add in the result to the toast
+//download extension
 //TODO: Loading Spinner   
 // TODO: Dynamically expose a field to make it available in the template 
 fields = [NAME_FIELD, TAXID_FIELD, UID_FIELD, STREET1_FIELD, STREET2_FIELD, STREET3_FIELD, ZIP_FIELD, ACTIVEUEI_FIELD, NOUEI_FIELD];
 
+rec = {
+    Name : this.name,
+    Street1: this.street1,
+    Street2: this.street2,
+    Street3: this.street3
+ 
+}
+
 //TODO: add toast event on success of record creation
-
-    handleSubmit() {
-        this.template.querySelector('lightning-record-edit-form').submit();
+  handleNameChange(event) {
+      console.log('and the rec is', this.rec)
+        this.rec.Name = event.target.value;
+        console.log("name", this.rec.Name);
     }
-
-    handleSuccess(event) {
-
-        const toastEvent = 
-        new ShowToastEvent({ title:'Business has been created successfully!', 
-        message: 'Business Created: '+ event.detail.id, 
-        varient:'Success' });
-        this.dispatchEvent(toastEvent);
-
-        const createBusinessEntityRecord = event.detail.id;
-        console.log('onsuccess: ', createBusinessEntityRecord);
-        this.close(createBusinessEntityRecord);
+  handleStreetChange1(event){
+        this.rec.Street1 = event.target.value;
+        console.log('street one', this.rec.Street1);
     }
-
-    options = [
-        { label: 'is an existing RUS borrower', value: 'option1' },
-        { label: 'is a former RUS or REA borrower', value: 'option2' },
-        { label: 'has never been a RUS or REA borrower', value: 'option3' },
-    ];
-
-    // Select option1 by default
-    value = 'option1';
-    options2 = [
-        { label: 'Yes', value: 'option1' },
-        { label: 'No', value: 'option2' },
-    ];
-
-    // Select option1 by default
-    value = ['option1'];
-
-    handleChange2(event) {
-        const changeValue = event.detail.value;
-        console.log(changeValue);
+    handleStreetChange2(event){
+        this.rec.Street2 = event.target.value;
+        console.log('street two', this.rec.Street2);
     }
-    handleChange(event) {
-        const selectedOption = event.detail.value;
-        console.log('Option selected with value: ' + selectedOption);
+    handleStreetChange3(event){
+        this.rec.Street3 = event.target.value;
+        console.log('street three', this.rec.Street3);
     }
+    handleSubmit(event) {
+        createEntity({ business : this.rec })
+            .then(result => {
+                this.message = result;
+                this.error = undefined;
+                if(this.message !== undefined) {
+                    this.rec.Name = '';
+                    this.rec.Street1 = '';
+                    this.rec.Street2 = '';
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: 'Success',
+                            message: 'Business created Succesfully!',
+                            variant: 'success',
+                        }),
+                    );
+                }
+                this.close(result)
+                console.log('resulllllt', this.message.Id)
+              
+                console.log(JSON.stringify(result));
+                console.log("result", this.message);
+            })
+            .catch(error => {
+                this.message = undefined;
+                this.error = error;
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Failed to Insert record',
+                        message: error.body.message,
+                        variant: 'error',
+                    }),
+                );
+                console.log("error", JSON.stringify(this.error));
+            })
+        }
 
 }
