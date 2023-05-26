@@ -1,96 +1,132 @@
 import { api,track } from 'lwc';
 import LightningModal from 'lightning/modal';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
-import BUSINESS_OBJECT from '@salesforce/schema/RD_PACE_Business_Entity_Card__c';
-import NAME_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.Name';
-import TAXID_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_TaxIdentificationNumber__c';
-import UID_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_UniqueIdentificationNumber__c';
-import STREET1_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_Street1__c';
-import STREET2_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_Street2__c';
-import STREET3_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_Street3__c';
-import ZIP_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_Zip__c';
-import ACTIVEUEI_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_ActiveUEI__c';
-import NOUEI_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_NoUEI__c';
 import createEntity from '@salesforce/apex/CreateBusinessEntity.createEntity'
 
 export default class RdPaceBaseModal extends LightningModal {
-//*Pass in dynamic information based off of what information you want to display in the modal from the parent component Business Entity Card*/
-    @api result;
-    @api headerText;
-    @api bodyContent;
-    @api saveBtn;
-    @api saveAndProceedToLOIBtn;
-
-//TODO: Add in other fields dynamically
-//Add in the result to the toast
-//download extension
-//TODO: Loading Spinner   
-// TODO: Dynamically expose a field to make it available in the template 
-fields = [NAME_FIELD, TAXID_FIELD, UID_FIELD, STREET1_FIELD, STREET2_FIELD, STREET3_FIELD, ZIP_FIELD, ACTIVEUEI_FIELD, NOUEI_FIELD];
     @track rec = {
         Name: "", 
         Street1: "",
         Street2: "",
-        Street3: ""       
+        Street3: "",
+        City: "",
+        Zip:"",
+        State: '',
+    };
+
+// Finish adding uei to the business entity tomorrow and the remaining fields makee sure they connect to the Apex controller and the database 
+    options = [
+        { label: 'Alabama', value: 'AL' },
+        { label: 'Alaska', value: 'AK' },
+        { label: 'Arizona', value: 'AZ' },
+        { label: 'Arkansas', value: 'AR' },
+        { label: 'California', value: 'CA' },
+        { label: 'Colorado', value: 'CO' },
+        { label: 'Connecticut', value: 'CT' },
+        { label: 'Delaware', value: 'DE' },
+        { label: 'Florida', value: 'FL' },
+        { label: 'Georgia', value: 'GA' },
+        { label: 'Hawaii', value: 'HI' },
+        { label: 'Idaho', value: 'ID' },
+        { label: 'Illinois', value: 'IL' },
+        { label: 'Indiana', value: 'IN' },
+        { label: 'Iowa', value: 'IA' },
+        { label: 'Kansas', value: 'KS' },
+        { label: 'Kentucky', value: 'KY' },
+        { label: 'Louisiana', value: 'LA' },
+        { label: 'Maine', value: 'ME' },
+        { label: 'Maryland', value: 'MD' },
+        { label: 'Massachusetts', value: 'MA' },
+        { label: 'Michigan', value: 'MI' },
+        { label: 'Minnesota', value: 'MN' },
+        { label: 'Mississippi', value: 'MS' },
+        { label: 'Missouri', value: 'MO' },
+        { label: 'Montana', value: 'MT' },
+        { label: 'Nebraska', value: 'NE' },
+        { label: 'Nevada', value: 'NV' },
+        { label: 'New Hampshire', value: 'NH' },
+        { label: 'New Jersey', value: 'NJ' },
+        { label: 'New Mexico', value: 'NM' },
+        { label: 'New York', value: 'NY' },
+        { label: 'North Carolina', value: 'NC' },
+        { label: 'North Dakota', value: 'ND' },
+        { label: 'Ohio', value: 'OH' },
+        { label: 'Oklahoma', value: 'OK' },
+        { label: 'Oregon', value: 'OR' },
+        { label: 'Pennsylvania', value: 'PA' },
+        { label: 'Rhode Island', value: 'RI' },
+        { label: 'South Carolina', value: 'SC' },
+        { label: 'South Dakota', value: 'SD' },
+        { label: 'Tennessee', value: 'TN' },
+        { label: 'Texas', value: 'TX' },
+        { label: 'Utah', value: 'UT' },
+        { label: 'Vermont', value: 'VT' },
+        { label: 'Virginia', value: 'VA' },
+        { label: 'Washington', value: 'WA' },
+        { label: 'West Virginia', value: 'WV' },
+        { label: 'Wisconsin', value: 'WI' },
+        { label: 'Wyoming', value: 'WY' },
+    ];
+    UEIOptions = [
+        { label: 'Yes', value: 'Yes' },
+        { label: 'No', value: 'No' },
+    ];
+
+    handleBusinessNameChange(event) {
+        this.rec.Name = event.target.value;
     }
 
-//TODO: add toast event on success of record creation
-  handleNameChange(event) {
-        this.rec.Name = event.target.value;
-        console.log("name", this.rec.Name);
-    }
-  handleStreetChange1(event){
+    handleBusinessStreet1Change(event) {
         this.rec.Street1 = event.target.value;
-        console.log('street one', this.rec.Street1);
     }
-   
-  handleStreetChange2(event){
+
+    handleBusinessStreet2Change(event) {
         this.rec.Street2 = event.target.value;
-        console.log('street two', this.rec.Street2);
     }
-   
-  handleStreetChange3(event){
+    handleBusinessStreet3Change(event) {
         this.rec.Street3 = event.target.value;
-        console.log('street three', this.rec.Street3);
     }
-   
+
+    handleBusinessCityChange(event) {
+        this.rec.City = event.target.value;
+    }
+    handleBusinessStateChange(event) {
+        this.rec.State = event.target.value;
+        console.log('Business State: ' + this.rec.State);
+    }
+    handleBusinessZipChange(event) {
+        this.rec.Zip = event.target.value;
+    }
+    handleUEI(event) {
+        this.rec.uei = event.target.value;
+    }
+
     handleSubmit() {
-        createEntity({rec:this.rec})
-            .then(result => {
+        createEntity({ rec: this.rec })
+            .then((result) => {
+                // Success toast
                 this.message = result;
                 this.error = undefined;
                 if(this.message !== undefined) {
-                    this.rec.Name = '';
-                    this.rec.Street1 = '';
-                    this.rec.Street2 = '';
-                    this.rec.Street3 = '';
-              
+                    this.name = '';
                     this.dispatchEvent(
                         new ShowToastEvent({
                             title: 'Success',
                             message: 'Business created Succesfully!',
                             variant: 'success',
                         }),
-                    );
+                        );
+                        console.log('Business entity created successfully');
                 }
-                this.close(result)
+                this.close(result);
                 console.log('result Id', this.message.Id)
               
                 console.log(JSON.stringify(result));
                 console.log("result", this.message);
             })
-            .catch(error => {
-                this.message = undefined;
-                this.error = error;
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Failed to Insert record',
-                        message: error.body.message,
-                        variant: 'error',
-                    }),
-                );
-                console.log("error", JSON.stringify(this.error));
-            })
-        }
-
+            .catch((error) => {
+                // Error handling
+                console.error('Error creating business entity:', error);
+            });
+    }
 }
