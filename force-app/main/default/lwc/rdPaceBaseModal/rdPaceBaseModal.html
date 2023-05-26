@@ -2,11 +2,11 @@
     <lightning-card variant="Narrow" title={headerText} icon-name="standard:account">
         <lightning-modal-header label="Business"></lightning-modal-header>
         <lightning-modal-body>
-            <lightning-input label="Name" value={name} onchange={handleNameChange}></lightning-input>
-            <lightning-input label="Street 1" value={street1} onchange={handleStreetChange1}></lightning-input>
-            <lightning-input label="Street 2" value={street2} onchange={handleStreetChange2}></lightning-input>
-            <lightning-input label="Street 3" value={street3} onchange={handleStreetChange3}></lightning-input>
-   
+            <lightning-input label="Name" value={rec.Name} onchange={handleNameChange}></lightning-input>
+            <lightning-input label="Street 1" value={rec.Street1} onchange={handleStreetChange1}></lightning-input>
+            <lightning-input label="Street 2" value={rec.Street2} onchange={handleStreetChange2}></lightning-input>
+            <lightning-input label="Street 3" value={rec.Street3} onchange={handleStreetChange3}></lightning-input>
+            <!-- <lightning-input label="City" value={city} onchange={handleCityChange}></lightning-input> -->
 
         </lightning-modal-body>
 

@@ -1,0 +1,9 @@
+<template>
+    <lightning-card title="Create Custom Object Record">
+        <div class="slds-p-around_medium">
+            <lightning-input label="Name" value={name} onchange={handleNameChange}></lightning-input>
+            <lightning-textarea label="Description" value={description} onchange={handleDescriptionChange}></lightning-textarea>
+            <lightning-button label="Save" onclick={createRecord}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

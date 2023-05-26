@@ -12,7 +12,7 @@ import ZIP_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PAC
 import ACTIVEUEI_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_ActiveUEI__c';
 import NOUEI_FIELD from '@salesforce/schema/RD_PACE_Business_Entity_Card__c.RD_PACE_NoUEI__c';
 import createEntity from '@salesforce/apex/CreateBusinessEntity.createEntity'
-   
+
 export default class RdPaceBaseModal extends LightningModal {
 //*Pass in dynamic information based off of what information you want to display in the modal from the parent component Business Entity Card*/
     @api result;
@@ -20,48 +20,50 @@ export default class RdPaceBaseModal extends LightningModal {
     @api bodyContent;
     @api saveBtn;
     @api saveAndProceedToLOIBtn;
-    @api BUSINESS_OBJECT;
 
-    @track name;
-    @track street1;
-    @track street2;
-    @track street3;
 //TODO: Add in other fields dynamically
 //Add in the result to the toast
 //download extension
 //TODO: Loading Spinner   
 // TODO: Dynamically expose a field to make it available in the template 
 fields = [NAME_FIELD, TAXID_FIELD, UID_FIELD, STREET1_FIELD, STREET2_FIELD, STREET3_FIELD, ZIP_FIELD, ACTIVEUEI_FIELD, NOUEI_FIELD];
-
+    @track rec = {
+        Name: "", 
+        Street1: "",
+        Street2: "",
+        Street3: ""       
+    }
 
 //TODO: add toast event on success of record creation
   handleNameChange(event) {
-   
-        this.name = event.target.value;
-        console.log("name", this.name);
+        this.rec.Name = event.target.value;
+        console.log("name", this.rec.Name);
     }
   handleStreetChange1(event){
-        this.street1 = event.target.value;
-        console.log('street one', this.street1);
+        this.rec.Street1 = event.target.value;
+        console.log('street one', this.rec.Street1);
     }
    
   handleStreetChange2(event){
-        this.street2 = event.target.value;
-        console.log('street two', this.street2);
+        this.rec.Street2 = event.target.value;
+        console.log('street two', this.rec.Street2);
     }
    
   handleStreetChange3(event){
-        this.street3 = event.target.value;
-        console.log('street three', this.street3);
+        this.rec.Street3 = event.target.value;
+        console.log('street three', this.rec.Street3);
     }
    
-    handleSubmit(event) {
-        createEntity({ name : this.name, street1: this.street1, street2: this.street2, street3: this.street3 })
+    handleSubmit() {
+        createEntity({rec:this.rec})
             .then(result => {
                 this.message = result;
                 this.error = undefined;
                 if(this.message !== undefined) {
-                    this.name = '';
+                    this.rec.Name = '';
+                    this.rec.Street1 = '';
+                    this.rec.Street2 = '';
+                    this.rec.Street3 = '';
               
                     this.dispatchEvent(
                         new ShowToastEvent({
