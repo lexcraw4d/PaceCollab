@@ -34,7 +34,7 @@ public with sharing class CreateBusinessEntity {
         business.RD_PACE_EligibleEntityDetemination__c = eligibilityOptions;
         business.RD_PACE_CheckIfNonProfit__c = isNotForProfit;
 
-    
+        
         
         // Insert the record
         insert business;
