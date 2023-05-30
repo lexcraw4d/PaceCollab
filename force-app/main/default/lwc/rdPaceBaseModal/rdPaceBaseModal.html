@@ -32,19 +32,48 @@
                 <!-- TO DO: below track the value of the combobox and then display the appropriate fieldslines 33 to 44-->
                 <div class="slds-p-around_medium">
                     <h1>Tax Identification Number and it's Unique Entity Identifier (UEI)</h1>
-                    <lightning-input label="Tax Identification Number (TIN)"></lightning-input> 
-                    <lightning-input label="Unique Entity Identifier (UEI)"></lightning-input>
-                   
-                    <lightning-combobox label="Active Unique Identifier (UEI)?" options={UEIOptions} onchange={handleUEI}></lightning-combobox>
-                    
-                    <!-- <lightning-input type="checkbox" label="Yes" checked={yesNoValue} onchange={handleYesChange}></lightning-input>
-                    <lightning-input type="checkbox" label="No" checked={yesNoValue} onchange={handleNoChange}></lightning-input> -->
-                    
+                    <lightning-input label="Tax Identification Number (TIN)" value={rec.TaxId} onchange={handleTaxIdChange}></lightning-input> 
+                    <lightning-input label="Unique Entity Identifier (UEI)" value={rec.UeiIdentifier} onchange={handleUeiIdChange}></lightning-input>
+                    <lightning-combobox label="Active Unique Entity Identifier (UEI)?" options={UEIOptions} onchange={handleUEIChange}></lightning-combobox>
+                    <lightning-input label="If no UEI, please explain" onchange={handleNoUeiChange}></lightning-input>
+                </div>
+                <div class="slds-p-around_medium">
+                    <h1>Legal Structure</h1>
+                    <lightning-combobox
+                        name='name'
+                        label='Specify if the Eligibility'
+                        value={rec.EligibilityOptions}
+                        options={eligibiltyOptions}
+                        onchange={handleEligibilityChange}
+                    ></lightning-combobox>
+                </div>
+                <div class="slds-p-around_medium">
+                    <h1>Private Entity Statement</h1>
+                    <lightning-combobox
+                        name='name'
+                        label='Are you organized as a not for profit?'
+                        value={rec.IsNonForProfit}
+                        options={privateEntityOptions}
+                        onchange={handlePrivateEntity}
+                    ></lightning-combobox>
+                </div>
+                <div class="slds-p-around_medium">
+                    <lightning-card title="State or local Government Entity" icon-name="custom:custom14">
+                        <div class="slds-m-around_medium">
+                            <lightning-input type="file" 
+                            accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
+                            label="Legal Authority to incur and provide security for debt (upload certification)" onchange={openfileUpload}></lightning-input>
+                        </div>
+                        <template if:true={fileData}>
+                            <p>{fileData.filename}</p>
+                        </template>
+                        <lightning-button variant="brand" label="submit" title="Submit" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+                    </lightning-card>
                 </div>
             </lightning-modal-body>
             <lightning-modal-footer>
-                    <lightning-button label="Save" variant="brand" class="slds-m-left_x-small" onclick={handleSubmit}></lightning-button>
-                    <lightning-button label="Save and continue to LOI" class="slds-m-left_x-small" variant="brand" onclick={handleSubmit}></lightning-button>
+                    <lightning-button label="Save" variant="brand" class="slds-m-left_small" onclick={handleSubmit}></lightning-button>
+                    <lightning-button label="Save and continue to LOI" class="slds-m-left_small" variant="brand" onclick={handleSubmit}></lightning-button>
             </lightning-modal-footer>
          
        

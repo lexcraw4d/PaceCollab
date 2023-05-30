@@ -11,7 +11,14 @@ export default class RdPaceBaseModal extends LightningModal {
         Street3: "",
         City: "",
         Zip:"",
-        State: '',
+        State: "",
+        TaxId: "",
+        UeiIdentifier: "",
+        UeiId: "",
+        NoUeiExplaination: "",
+        EligibilityOptions: "",
+        IsNotForProfit: ""
+
     };
 
 // Finish adding uei to the business entity tomorrow and the remaining fields makee sure they connect to the Apex controller and the database 
@@ -68,10 +75,23 @@ export default class RdPaceBaseModal extends LightningModal {
         { label: 'Wyoming', value: 'WY' },
     ];
     UEIOptions = [
-        { label: 'Yes', value: 'Yes' },
-        { label: 'No', value: 'No' },
-    ];
-
+            { label: 'Yes', value: 'Yes' },
+            { label: 'No', value: 'No' },
+        ];
+    eligibiltyOptions = [
+            { label: '(a) is an existing RUS borrower', value: '(a) is an existing RUS borrower' },
+            { label: '(b) is a former RUS or REA borrower', value: '(b) is a former RUS or REA borrower' },
+            { label: '(c) has never been a RUS or REA borrower', value: '(c) has never been a RUS or REA borrower' },
+        ]
+    UEIOptions = [
+            { label: 'Yes', value: 'Yes' },
+            { label: 'No', value: 'No' },
+        ]
+    privateEntityOptions = [
+            { label: 'Yes', value: 'Yes' },
+            { label: 'No', value: 'No' },
+        ]
+    
     handleBusinessNameChange(event) {
         this.rec.Name = event.target.value;
     }
@@ -97,8 +117,26 @@ export default class RdPaceBaseModal extends LightningModal {
     handleBusinessZipChange(event) {
         this.rec.Zip = event.target.value;
     }
-    handleUEI(event) {
-        this.rec.uei = event.target.value;
+    handleUeiIdChange(event){
+        this.rec.UeiIdentifier = event.target.value;
+    }
+    handleUEIChange(event) {
+        this.rec.UeiId = event.target.value;
+        console.log("uei", this.rec.UeiId)
+    }
+    handleNoUeiChange(event){
+        this.rec.NoUeiExplaination = event.target.value;
+    }
+    handleTaxIdChange(event){
+        this.rec.TaxId = event.target.value;
+    }
+
+    handleEligibilityChange(event){
+        this.rec.EligibilityOptions = event.target.value;
+        }
+    
+    handlePrivateEntity(event){
+        this.rec.IsNotForProfit = event.target.value;
     }
 
     handleSubmit() {
