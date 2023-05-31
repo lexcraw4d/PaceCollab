@@ -33,13 +33,20 @@ public with sharing class CreateBusinessEntity {
         business.RD_PACE_NoUEI__c = noUeiExplaination;
         business.RD_PACE_EligibleEntityDetemination__c = eligibilityOptions;
         business.RD_PACE_CheckIfNonProfit__c = isNotForProfit;
-
-        
-        
+       
+        // Check if the Business Entity has a Salesforce ID
+        if (business.Id == null || String.isBlank(String.valueOf(business.Id))) {
+        // Create the Admin Role object and set the field values
+             RD_PACE_Role__c adminRole = new RD_PACE_Role__c();
+             adminRole.RD_PACE_RoleName__c = 'Admin';
+             adminRole.Name = business.Name;
+             
+        // Insert the Admin Role record
+             insert adminRole;
+        }
         // Insert the record
         insert business;
-       
-            
-        }
-    
+    }
+      
+
 }
