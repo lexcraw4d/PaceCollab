@@ -37,16 +37,17 @@ public with sharing class CreateBusinessEntity {
         business.RD_PACE_CheckIfNonProfit__c = isNotForProfit;
 
         // Check if the Business Entity has a Salesforce ID
-        // Use upsert to either insert or update the business entity
+           // Use upsert to either insert or update the business entity
     if (existingBusinessEntity != null) {
         // Set the existing ID for update
         business.Id = existingBusinessEntity.Id; 
     }
 
+    // Insert/Update the record
     upsert business;
 
     // Check if the business entity is new (inserted) or updated
-    if (business.Id == null || String.isBlank(String.valueOf(business.Id))) {
+    if (existingBusinessEntity == null || existingBusinessEntity.Id == null) {
         // Create the Admin Role object and set the field values
              RD_PACE_Role__c adminRole = new RD_PACE_Role__c();
              adminRole.RD_PACE_RoleName__c = 'Admin';
@@ -56,8 +57,7 @@ public with sharing class CreateBusinessEntity {
         insert adminRole;
 
         }
-        // Insert the record
-        insert business;
+        // insert business;
     }
       
 
