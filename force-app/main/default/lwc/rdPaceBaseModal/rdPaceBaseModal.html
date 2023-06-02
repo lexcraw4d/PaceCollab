@@ -1,0 +1,81 @@
+<template>
+
+        <div class="slds-col slds-size_1-of-1">
+
+             <lightning-modal-header label="Create Business Entity"></lightning-modal-header>
+            <lightning-modal-body title="Create Business Entity">
+                <div class="slds-p-around_medium">
+                    <h1>Legal Name</h1>
+                    <lightning-input label="Company Name" value={rec.Name} onchange={handleBusinessNameChange}></lightning-input>
+                </div>
+                <div class="slds-p-around_medium">
+                    <h1>Legal Status</h1>
+                    <lightning-combobox label="Legal Status">Need Options Here</lightning-combobox>
+                </div>
+                <div class="slds-p-around_medium">
+                    <h1>Address</h1>
+                    <lightning-input label="Street 1" value={rec.Street1} onchange={handleBusinessStreet1Change}></lightning-input>
+                    <lightning-input label="Street 2" value={rec.Street2} onchange={handleBusinessStreet2Change}></lightning-input>
+                    <lightning-input label="Street 3" value={rec.Street3} onchange={handleBusinessStreet3Change}></lightning-input>
+                    <lightning-input label="City" value={rec.City} onchange={handleBusinessCityChange}></lightning-input>
+                    <lightning-combobox label="State" options={options} onchange={handleBusinessStateChange}></lightning-combobox>
+                </div>
+                <div class="slds-p-around_medium">
+                    <div class="help-icon">
+                        <lightning-input label="Zip" value={rec.Zip} onchange={handleBusinessZipChange}></lightning-input>
+                        <div class="help-icon">
+                            <lightning-helptext icon-name="utility:salesforce1" content="Please enter a 5-digit Zip Code."></lightning-helptext>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TO DO: below track the value of the combobox and then display the appropriate fieldslines 33 to 44-->
+                <div class="slds-p-around_medium">
+                    <h1>Tax Identification Number and it's Unique Entity Identifier (UEI)</h1>
+                    <lightning-input label="Tax Identification Number (TIN)" value={rec.TaxId} onchange={handleTaxIdChange}></lightning-input> 
+                    <lightning-input label="Unique Entity Identifier (UEI)" value={rec.UeiIdentifier} onchange={handleUeiIdChange}></lightning-input>
+                    <lightning-combobox label="Active Unique Entity Identifier (UEI)?" options={UEIOptions} onchange={handleUEIChange}></lightning-combobox>
+                    <lightning-input label="If no UEI, please explain" onchange={handleNoUeiChange}></lightning-input>
+                </div>
+                <div class="slds-p-around_medium">
+                    <h1>Legal Structure</h1>
+                    <lightning-combobox
+                        name='name'
+                        label='Specify if the Eligibility'
+                        value={rec.EligibilityOptions}
+                        options={eligibiltyOptions}
+                        onchange={handleEligibilityChange}
+                    ></lightning-combobox>
+                </div>
+                <div class="slds-p-around_medium">
+                    <h1>Private Entity Statement</h1>
+                    <lightning-combobox
+                        name='name'
+                        label='Are you organized as a not for profit?'
+                        value={rec.IsNonForProfit}
+                        options={privateEntityOptions}
+                        onchange={handlePrivateEntity}
+                    ></lightning-combobox>
+                </div>
+                <div class="slds-p-around_medium">
+                    <lightning-card title="State or local Government Entity" icon-name="custom:custom14">
+                        <div class="slds-m-around_medium">
+                            <lightning-input type="file" 
+                            accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
+                            label="Legal Authority to incur and provide security for debt (upload certification)" onchange={openfileUpload}></lightning-input>
+                        </div>
+                        <template if:true={fileData}>
+                            <p>{fileData.filename}</p>
+                        </template>
+                        <lightning-button variant="brand" label="submit" title="Submit" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+                    </lightning-card>
+                </div>
+            </lightning-modal-body>
+            <lightning-modal-footer>
+                    <lightning-button label="Save" variant="brand" class="slds-m-left_small" onclick={handleSubmit}></lightning-button>
+                    <lightning-button label="Save and continue to LOI" class="slds-m-left_small" variant="brand" onclick={handleSubmit}></lightning-button>
+            </lightning-modal-footer>
+         
+       
+    </div>
+</template>
