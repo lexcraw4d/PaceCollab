@@ -10,7 +10,7 @@
                 </div>
                 <div class="slds-p-around_medium">
                     <h1>Legal Status</h1>
-                    <lightning-combobox label="Legal Status">Need Options Here</lightning-combobox>
+                    <lightning-combobox label="Legal Status" onchange={handleLegalStatusChange} value={rec.LegStatus}  options={legalOpts}></lightning-combobox>
                 </div>
                 <div class="slds-p-around_medium">
                     <h1>Address</h1>

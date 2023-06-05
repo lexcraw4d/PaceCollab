@@ -17,7 +17,8 @@ export default class RdPaceBaseModal extends LightningModal {
         UeiId: "",
         NoUeiExplaination: "",
         EligibilityOptions: "",
-        IsNotForProfit: ""
+        IsNotForProfit: "",
+        LegStatus: ""
 
     };
 
@@ -91,6 +92,29 @@ export default class RdPaceBaseModal extends LightningModal {
             { label: 'Yes', value: 'Yes' },
             { label: 'No', value: 'No' },
         ]
+    legalOpts = [
+        {label: 'Authority', value: "Authority" },
+        {label: 'Commercial', value: 'Commercial'},
+        {label: 'Consortium', value: 'Consortium'},
+        {label: 'Cooperative', value: 'Cooperative'},
+        {label: 'Corporation', value: 'Corporation'},
+        {label: 'Higher Education', value: 'Higher Education'},
+        {label: 'Indian Tribe', value: 'Indian Tribe'},
+        {label: 'Limited Liability Company - (LLC)', value: 'Limited Liability Company - (LLC)'},
+        {label: 'Limited Liability Partnership - (LLP)', value: 'Limited Liability Partnership - (LLP)'},
+        {label: 'Local Government', value: 'Local Government'},
+        {label: 'Municipality', value: 'Municipality'},
+        {label: 'Mutual Organization', value: 'Mutual Organization'},
+        {label: 'Non-Profit', value: 'Non-Profit'},
+        {label: 'Partnership', value: 'Partnership'},
+        {label: 'Proprietorship', value: 'Proprietorship'},
+        {label: 'Public Body', value: 'Public Body'},
+        {label: 'Public Power District', value: 'Public Power District'},
+        {label: 'Public Utilities District', value: 'Public Utilities District'},
+        {label: 'State Government', value: 'State Government'},
+        {label: 'Territory or Possession of the United States', value: 'Territory or Possession of the United States'},
+        {label: 'Tribal Government', value: 'Tribal Government'}     
+    ]
     
     handleBusinessNameChange(event) {
         this.rec.Name = event.target.value;
@@ -139,6 +163,11 @@ export default class RdPaceBaseModal extends LightningModal {
         this.rec.IsNotForProfit = event.target.value;
     }
 
+    handleLegalStatusChange(event){
+        this.rec.LegStatus = event.target.value
+        console.log(this.rec.LegStatus)
+    }
+
     handleSubmit() {
         createEntity({ rec: this.rec })
             .then((result) => {
@@ -150,8 +179,8 @@ export default class RdPaceBaseModal extends LightningModal {
                     this.dispatchEvent(
                         new ShowToastEvent({
                             title: 'Success',
-                            message: 'Business created Succesfully!',
-                            variant: 'success',
+                            message: 'Business created Succesfully! User assigned as Admin.',
+                            variant: 'success', 
                         }),
                         );
                         console.log('Business entity created successfully');

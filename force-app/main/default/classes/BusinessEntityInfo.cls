@@ -23,6 +23,9 @@ public class BusinessEntityInfo {
     public String taxId { get; set; }
 
     @AuraEnabled
+    public String legStatus {get; set;}
+
+    @AuraEnabled
     public String ueiIdentifier { get; set; }
 
     @AuraEnabled
@@ -37,9 +40,5 @@ public class BusinessEntityInfo {
     @AuraEnabled
     public String isNotForProfit { get; set; }
     
-    
-    
-    
-
 
     }
